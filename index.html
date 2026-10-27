@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>เกมทบทวน: คำขวัญโน้มจิต โน้มคิดคำคม</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff8ec;--card:#fff;--ink:#2b2a33;--mute:#6b6a75;--pri:#f08a24;--pri2:#ffe2bd;--ok:#1e9e6a;--okbg:#dcf5ea;--no:#d9534f;--nobg:#ffe6e3;--line:#eadfcb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1b22;--card:#2a2731;--ink:#f4f1ea;--mute:#b3afbd;--pri:#ffa74a;--pri2:#4a3720;--ok:#52d6a0;--okbg:#1d3a2e;--no:#ff8a84;--nobg:#432526;--line:#3d3947}}
+:root[data-theme="dark"]{--bg:#1d1b22;--card:#2a2731;--ink:#f4f1ea;--mute:#b3afbd;--pri:#ffa74a;--pri2:#4a3720;--ok:#52d6a0;--okbg:#1d3a2e;--no:#ff8a84;--nobg:#432526;--line:#3d3947}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans Thai','Sarabun','Tahoma',sans-serif;line-height:1.6;min-height:100vh;display:flex;justify-content:center;padding:16px}
+main{width:100%;max-width:640px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:22px;margin-top:8px}
+h1{font-size:1.7rem;margin:.2em 0;font-weight:800}
+.big{font-size:3.2rem;text-align:center}
+.center{text-align:center}
+.mute{color:var(--mute)}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--pri);color:#2b1a00;border:0;border-radius:14px;padding:12px 24px;font-weight:800;font-size:1.05rem;margin-top:12px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0;font-size:1.02rem}
+.opt:hover:not(:disabled){border-color:var(--pri);background:var(--pri2)}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.no{background:var(--nobg);border-color:var(--no)}
+.top{display:flex;justify-content:space-between;font-weight:600;font-size:.95rem}
+.bar{height:12px;background:var(--pri2);border-radius:8px;overflow:hidden;margin:8px 0 14px}
+.bar i{display:block;height:100%;width:100%;background:var(--pri);transition:width .1s linear}
+.bar i.low{background:var(--no)}
+.q{font-size:1.2rem;font-weight:600;margin:6px 0}
+.fb{border-radius:14px;padding:12px 14px;margin-top:10px}
+.fb.ok{background:var(--okbg)}.fb.no{background:var(--nobg)}
+ul{padding-left:1.2em}
+</style></head>
+<body><main id="app"></main>
+<script>
+const Q=[
+["คำขวัญ คือข้อความลักษณะใด","ข้อความสั้น ๆ จำง่าย กินใจ เพื่อชักชวนให้คิดหรือทำตาม",["เรื่องเล่ายาว ๆ ที่มีตัวละครหลายตัว","บทความวิเคราะห์ข่าวอย่างละเอียด","รายงานการประชุมของโรงเรียน"],"คำขวัญคือข้อความสั้น กระชับ จำง่าย และสะกดใจให้คนคล้อยตามหรืออยากทำตาม"],
+["ข้อใดเป็นลักษณะที่ดีของคำขวัญ","สั้น กระชับ จำง่าย",["ยาว อธิบายครบทุกรายละเอียด","ใช้ศัพท์ยากเพื่อให้ดูเก่ง","ใช้ถ้อยคำคลุมเครือเข้าใจยาก"],"คำขวัญที่ดีต้องอ่านครั้งเดียวก็จำได้ จึงต้องสั้น กระชับ และชัดเจน"],
+["จุดประสงค์หลักของคำขวัญคือข้อใด","โน้มน้าวใจให้คนคิดหรือปฏิบัติตาม",["ขายสินค้าให้ได้กำไรสูงสุดเท่านั้น","เล่าเหตุการณ์ในอดีตอย่างละเอียด","ให้ความบันเทิงอย่างเดียว"],"คำว่า “โน้มจิต” ในชื่อเรื่อง สื่อว่าคำขวัญช่วยโน้มน้าวใจผู้อ่านให้เห็นด้วยและลงมือทำ"],
+["ข้อใดเป็นคำขวัญ","รักษ์โลก ลดขยะ ใช้ซ้ำ",["เมื่อวานฉันไปตลาดซื้อผักมาทำกับข้าว","กรุณาติดต่อฝ่ายทะเบียนที่ชั้น 2","ฝนตกชุกในภาคใต้ตลอดสัปดาห์นี้"],"“รักษ์โลก ลดขยะ ใช้ซ้ำ” สั้น จำง่าย และชวนให้ทำ ส่วนข้ออื่นเป็นประโยคบอกเล่าหรือประกาศทั่วไป"],
+["คำคม คือข้อความลักษณะใด","ข้อความสั้น ๆ ที่มีความหมายลึกซึ้ง คมคาย ชวนให้คิด",["ข้อความโฆษณาลดราคาสินค้า","คำสั่งให้ปฏิบัติตามกฎ","ข้อความทักทายประจำวัน"],"คำคมให้ข้อคิดที่คมคายและลึกซึ้ง อ่านแล้วอยากหยุดคิดตามนั่นเอง"],
+["คำขวัญกับคำคม ต่างกันอย่างไร","คำขวัญเน้นชักชวนให้ทำ ส่วนคำคมเน้นให้ข้อคิด",["คำขวัญเน้นให้ข้อคิด ส่วนคำคมเน้นชักชวนให้ทำ","สองอย่างนี้เหมือนกันทุกประการ","คำขวัญต้องยาว คำคมต้องสั้น"],"จำง่าย ๆ ว่า คำขวัญ = โน้มจิต (ชวนให้ทำ) / คำคม = โน้มคิด (ชวนให้คิด)"],
+["ข้อใดเป็นคำคม","ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น",["พรุ่งนี้ลดราคา 50% ทุกรายการ","วันนี้ฝนตกหนักมาก","กรุณาปิดไฟก่อนออกจากห้อง"],"ข้อความนี้ให้ข้อคิดลึกซึ้งเกี่ยวกับชีวิต ส่วนข้ออื่นเป็นโฆษณา ข้อมูลทั่วไป หรือคำขอร้อง"],
+["“น้ำคือชีวิต ประหยัดน้ำคือรักษาชีวิต” ต้องการชักชวนเรื่องใด","ให้ช่วยกันประหยัดน้ำ",["ให้ดื่มน้ำเยอะ ๆ ทุกชั่วโมง","ให้ไปเที่ยวทะเล","ให้เรียนวิทยาศาสตร์เพิ่ม"],"อ่านแล้วต้องจับใจความให้ได้ว่า ผู้แต่งอยากชวนเราประหยัดน้ำ เพราะน้ำสำคัญต่อชีวิต"],
+["ทำไมคำขวัญจึงนิยมใช้คำคล้องจองหรือมีสัมผัส","ทำให้จำง่ายและอ่านแล้วรื่นหู",["ทำให้ข้อความยาวขึ้น","ทำให้เข้าใจยากขึ้น","เพราะเป็นกฎที่ห้ามเปลี่ยน"],"เสียงคล้องจองช่วยให้จำง่ายและไพเราะ จึงโน้มน้าวใจได้ดีขึ้น"],
+["ถ้าอยากแต่งคำขวัญชวนเพื่อนอ่านหนังสือ ข้อใดเหมาะที่สุด","อ่านวันละนิด จิตแจ่มใส",["เพื่อน ๆ ครับ ขอให้ทุกคนไปที่ห้องสมุดแล้วหาหนังสือที่ตนเองชอบมาอ่านอย่างน้อยวันละหนึ่งชั่วโมง","ไม่อ่านก็ช่างมัน","วันนี้อากาศดีจังเลย"],"ข้อนี้สั้น จำง่าย มีสัมผัส และชวนให้ลงมือทำ ตรงตามลักษณะของคำขวัญ"]
+];
+const cheer=["ไม่เป็นไรนะ ลองดูเฉลยด้วยกัน 😊","เกือบแล้ว! ความผิดพลาดคือครูที่ดี 💪","ข้อนี้เราได้เรียนรู้เพิ่มแล้ว เยี่ยมมาก ✨"];
+const praise=["เก่งมาก! 🎉","ใช่เลย! 🌟","ถูกต้อง! สุดยอด 👏"];
+const $=document.getElementById('app');
+let i,score,right,t,timer,items;
+const sh=a=>{a=[...a];for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
+function start(){
+ $.innerHTML=`<div class="card center"><div class="big">💬</div><h1>คำขวัญโน้มจิต โน้มคิดคำคม</h1>
+ <p class="mute">เกมทบทวนท้ายคาบ · 10 ข้อ · ข้อละ 20 วินาที</p>
+ <p>ตอบถูกได้ 10 คะแนน ตอบผิดไม่ต้องกังวล เรามีเฉลยและคำอธิบายให้ทุกข้อ<br>เกมนี้เล่นเพื่อทบทวนและสนุกไปด้วยกัน ไม่มีใครแพ้! 😄</p>
+ <button class="btn" onclick="begin()">เริ่มเล่น</button></div>`}
+function begin(){i=0;score=0;right=0;items=Q.map(q=>({q:q[0],opts:sh([q[1],...q[2]]),a:q[1],ex:q[3]}));show()}
+function show(){
+ const it=items[i];t=20;
+ $.innerHTML=`<div class="top"><span>ข้อ ${i+1}/10</span><span>⭐ ${score} คะแนน</span></div>
+ <div class="bar"><i id="b"></i></div>
+ <div class="card"><div class="q">${it.q}</div><div id="o"></div><div id="f"></div></div>
+ <div class="center mute" id="tl" style="margin-top:8px">⏱ เหลือ 20 วินาที</div>`;
+ const o=document.getElementById('o');
+ it.opts.forEach(x=>{const b=document.createElement('button');b.className='opt';b.textContent=x;b.onclick=()=>pick(b,x);o.appendChild(b)});
+ clearInterval(timer);const end=Date.now()+20000;
+ timer=setInterval(()=>{const r=Math.max(0,end-Date.now());const s=Math.ceil(r/1000);
+  const b=document.getElementById('b'),tl=document.getElementById('tl');if(!b)return;
+  b.style.width=(r/200)+'%';b.className=s<=5?'low':'';tl.textContent='⏱ เหลือ '+s+' วินาที';
+  if(r<=0){clearInterval(timer);pick(null,null)}},100)}
+function pick(btn,x){
+ clearInterval(timer);const it=items[i],ok=x===it.a;
+ document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(b.textContent===it.a)b.classList.add('ok')});
+ if(btn&&!ok)btn.classList.add('no');
+ let msg;
+ if(ok){score+=10;right++;msg=`<div class="fb ok"><b>${praise[i%3]} +10 คะแนน</b><br>${it.ex}</div>`}
+ else msg=`<div class="fb no"><b>${x===null?'หมดเวลาแล้ว ไม่เป็นไรนะ ⏰':cheer[i%3]}</b><br>คำตอบที่ถูกคือ “${it.a}”<br>${it.ex}</div>`;
+ document.getElementById('f').innerHTML=msg+`<div class="center"><button class="btn" onclick="next()">${i<9?'ข้อต่อไป ➜':'ดูผลของเรา'}</button></div>`;
+ document.querySelector('.top span:last-child').textContent='⭐ '+score+' คะแนน'}
+function next(){i++;i<10?show():fin()}
+function fin(){
+ const m=right>=8?"สุดยอด! เข้าใจเรื่องนี้ดีมาก 🌟":right>=5?"เก่งมาก! เข้าใจเนื้อหาได้ดีแล้ว 👏":"ขอบคุณที่ตั้งใจเล่นนะ ทบทวนอีกนิดก็จะเก่งขึ้นแน่นอน 💪";
+ $.innerHTML=`<div class="card center"><div class="big">🏅</div><h1>เล่นครบ 10 ข้อแล้ว!</h1>
+ <p style="font-size:1.4rem;font-weight:800">${score} / 100 คะแนน</p><p>ตอบถูก ${right} ข้อ</p><p>${m}</p>
+ <p class="mute">คำขวัญ = โน้มจิต (ชวนให้ทำ) · คำคม = โน้มคิด (ชวนให้คิด)</p>
+ <button class="btn" onclick="begin()">เล่นอีกรอบ</button></div>`}
+start();
+</script></body></html>
